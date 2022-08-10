@@ -1,28 +1,14 @@
-const Sequelize = require('sequelize');
-        //Sequelize used as constructor, thus capitalized
-const conn = new Sequelize(process.env.DATABASE_URL || 'postgres://localhost/wizard_news_seq_2208_db');
 const express = require('express');
 const app = express();
+/*
+const db = require('./db');
+const conn = db.conn;
+const User = db.User;
+const Post = db.Post;
+*/
 
-const User = conn.define('user', {
-    name: {
-        type: Sequelize.STRING
-    }
-        //sequelize defines user, creates model and calling conn.sync force:true creates table
-        //models: abstraction for tables; queries can retrieve data
-});
+const { conn, User, Post } = require('./db');
 
-const Post = conn.define('post', {
-    title: {
-        type: Sequelize.STRING
-    },
-    content: {
-        type: Sequelize.TEXT
-    }
-});
-
-Post.belongsTo(User);
-User.hasMany(Post);
 
 app.use('/assets', express.static('assets'));
         //check if can find accessible assets folder
